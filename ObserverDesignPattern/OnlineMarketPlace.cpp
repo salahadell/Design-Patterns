@@ -22,10 +22,7 @@ void OnlineMarketPlace::AddNewProduct(product* product)
 	/*
 	for each product added you have to iterate only over all the users who subscribed to products notifications
 	*/ 
-	for(subscriber* s: subscribers[NewProduct])
-	{
-		s->notify(product->getProductName()+" is added");
-	}
+	notifySubscriber(NewProduct, product->getProductName() + " is added");
 
 }
 void OnlineMarketPlace::AddNewOffers(offer* offer)
@@ -34,19 +31,25 @@ void OnlineMarketPlace::AddNewOffers(offer* offer)
 	/*
 	for each offer added you have to iterate only over all the users who subscribed to offers notifications
 	*/
-	for (subscriber* s : subscribers[NewOffer])
-	{
-			s->notify(offer->getMessage());
-	}
+	notifySubscriber(NewOffer, offer->getMessage());
+
 }
 void OnlineMarketPlace::AddNewJob(std::string jobTitle)
 {
 	/*
 	for each job added you have to iterate only over all the users who subscribed to job notifications
 	*/
-	for (subscriber* s : subscribers[NewJobPos])
+	notifySubscriber(NewJobPos, jobTitle + " is available");
+
+}
+void OnlineMarketPlace::notifySubscriber(eventTypes eventType,std::string message)
+{
+	/*
+	for each event added you have to iterate only over all the users who subscribed to this event notifications
+	*/
+	for (subscriber* s : subscribers[eventType])
 	{
-		s->notify(jobTitle + " is available");
+		s->notify(message);
 	}
 
 }

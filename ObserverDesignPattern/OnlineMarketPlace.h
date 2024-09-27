@@ -20,6 +20,7 @@ public:
 	void AddNewJob(std::string jobTitle);
 	void subscribe(eventTypes, subscriber*);
 	void unsubscribe(eventTypes, subscriber*);
+	void notifySubscriber(eventTypes, std::string);
 
 };
 
