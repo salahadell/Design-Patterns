@@ -2,25 +2,29 @@
 
 OnlineMarketPlace::OnlineMarketPlace() 
 {
+	this->subscribers.emplace(NewProduct, std::list<subscriber*>{});
+	this->subscribers.emplace(NewOffer, std::list<subscriber*>{});
+	this->subscribers.emplace(NewJobPos, std::list<subscriber*>{});
+
 }
-void OnlineMarketPlace::AddNewUser(user* user)
+void OnlineMarketPlace::subscribe(eventTypes eventType, subscriber* Subscriber)
 {
-	this->users.push_back(user);
+	subscribers[eventType].emplace_back(Subscriber);
+}
+void OnlineMarketPlace::unsubscribe(eventTypes eventType, subscriber* Subscriber)
+{
+	subscribers[eventType].remove(Subscriber);
+
 }
 void OnlineMarketPlace::AddNewProduct(product* product) 
 {
 	this->products.push_back(product);
 	/*
-	for each product added you have to iterate over all the users to check if they subscribed
-	which is not efficient as you suppose to iterate only over the users who subscribed 
-	to products notifications
+	for each product added you have to iterate only over all the users who subscribed to products notifications
 	*/ 
-	for(user* u:users)
+	for(subscriber* s: subscribers[NewProduct])
 	{
-		if (u->isSubscribedToProduct())
-		{
-			u->notifyuser(product);
-		}
+		s->notify(product->getProductName()+" is added");
 	}
 
 }
@@ -28,15 +32,21 @@ void OnlineMarketPlace::AddNewOffers(offer* offer)
 {
 	this->offers.push_back(offer);
 	/*
-	for each offer added you have to iterate over all the users to check if they subscribed
-	which is not efficient as you suppose to iterate only over the users who subscribed
-	to offers notifications
+	for each offer added you have to iterate only over all the users who subscribed to offers notifications
 	*/
-	for (user* u : users)
+	for (subscriber* s : subscribers[NewOffer])
 	{
-		if (u->isSubscribedToOffer())
-		{
-			u->notifyuser(offer);
-		}
+			s->notify(offer->getMessage());
 	}
+}
+void OnlineMarketPlace::AddNewJob(std::string jobTitle)
+{
+	/*
+	for each job added you have to iterate only over all the users who subscribed to job notifications
+	*/
+	for (subscriber* s : subscribers[NewJobPos])
+	{
+		s->notify(jobTitle + " is available");
+	}
+
 }
