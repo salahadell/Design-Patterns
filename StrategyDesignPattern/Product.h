@@ -1,16 +1,17 @@
 #pragma once
 #include <iostream>
 #include <string>
-#include "MembershipTypes.h"
+#include "PricingStrategy.h"
 
 class Product
 {
 	std::string name;
 	double price;
+	PricingStrategy* pricingStrategy;
 
 public:
-	Product(std::string name, double price);
-	double CalculateProductPrice(MembershipTypes) const;
+	Product(std::string name, double price, PricingStrategy* pricingStrategy);
+	double CalculateProductPrice() const;
 
 };
 

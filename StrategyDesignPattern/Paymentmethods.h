@@ -1,7 +1,6 @@
 #pragma once
-enum Paymentmethods
+class PaymentMethodStrategy
 {
-	VISA,
-	PAYPAL,
-	BANKTRANSFER
+public:
+	virtual void ProcessPayment(double amount) = 0;
 };

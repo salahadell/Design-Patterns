@@ -1,23 +1,13 @@
 #include "Product.h"
-Product::Product(std::string name, double price) {
+Product::Product(std::string name, double price, PricingStrategy* pricingStrategy) {
 	this->name = name;
 	this->price = price;
+	this->pricingStrategy = pricingStrategy;
+
 }
 
-double Product::CalculateProductPrice(MembershipTypes membershiptype) const {
+double Product::CalculateProductPrice() const {
 
-	if (membershiptype == REGULAR)
-	{
-		return this->price;
-	}
-	else if (membershiptype == GOLD)
-	{
-		return this->price * 0.9; //10% discount
-
-	}
-	else if (membershiptype == PREMIUM)
-	{
-		return this->price * 0.8; //20% discount
-
-	}
+	return pricingStrategy->CalculateProductPrice(price);
+	
 }

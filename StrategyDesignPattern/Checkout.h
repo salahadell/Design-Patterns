@@ -1,8 +1,10 @@
 #pragma once
-#include "Paymentmethods.h"
+#include "PaymentMethodStrategy.h"
 class Checkout
 {
+	PaymentMethodStrategy* paymentmethodstrategy;
 public:
-	void processPayment(double amount,Paymentmethods);
+	Checkout(PaymentMethodStrategy*);
+	void processPayment(double amount);
 };
 
